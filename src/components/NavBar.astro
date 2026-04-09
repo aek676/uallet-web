@@ -1,0 +1,49 @@
+---
+---
+<nav class="fixed top-0 w-full z-50 glass-nav bg-[#131318]/60 backdrop-blur-xl">
+  <div class="relative flex justify-between items-center max-w-7xl mx-auto px-8 h-20">
+    <div class="flex items-center gap-2">
+      <div class="text-2xl font-bold tracking-tighter text-[#d8b9ff] font-headline">
+        Uallet
+      </div>
+    </div>
+    <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-8 font-headline tracking-tight">
+      <a class="nav-link text-[#d8b9ff] hover:text-[#00ec91] transition-colors" href="#problem" data-target="problem">El Problema</a>
+      <a class="nav-link text-[#a0a0ab] hover:text-[#d8b9ff] transition-colors" href="#how-it-works" data-target="how-it-works">Cómo Funciona</a>
+      <a class="nav-link text-[#a0a0ab] hover:text-[#d8b9ff] transition-colors" href="#benefits" data-target="benefits">Beneficios</a>
+      <a class="nav-link text-[#a0a0ab] hover:text-[#d8b9ff] transition-colors" href="#technology" data-target="technology">Tecnología</a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  function updateActiveLink() {
+    let currentSection = '';
+    
+    sections.forEach(el => {
+      const section = el as HTMLElement;
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.offsetHeight;
+      if (window.scrollY >= sectionTop - 100 && window.scrollY < sectionTop + sectionHeight - 100) {
+        currentSection = section.getAttribute('id') || '';
+      }
+    });
+
+    navLinks.forEach(link => {
+      const target = link.getAttribute('data-target');
+      if (target === currentSection) {
+        link.classList.remove('text-[#a0a0ab]');
+        link.classList.add('text-[#d8b9ff]');
+      } else {
+        link.classList.remove('text-[#d8b9ff]');
+        link.classList.add('text-[#a0a0ab]');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveLink);
+  window.addEventListener('load', updateActiveLink);
+</script>
