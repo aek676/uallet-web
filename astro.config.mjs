@@ -5,6 +5,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
+  base: '/uallet-web/',
+  output: 'static',
   vite: {
     plugins: [tailwindcss()]
   }
