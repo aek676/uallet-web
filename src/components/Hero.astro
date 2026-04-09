@@ -10,7 +10,11 @@ import logoBlanco from '../assets/logoBlanco.png';
         src={logoBlanco}
         alt="Uallet Logo Blanco"
         class="w-64 md:w-80 h-auto mx-auto object-contain drop-shadow-[0_0_40px_rgba(216,185,255,0.4)]"
+        width={320}
+        widths={[256, 320, 640]}
+        sizes="(max-width: 768px) 256px, 320px"
         loading="eager"
+        fetchpriority="high"
       />
     </div>
     <h1 class="font-headline text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter leading-tight max-w-4xl mb-8">
