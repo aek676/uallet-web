@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import logoBlanco from '../assets/logoBlanco.png';
 ---
 <section class="relative overflow-hidden pt-24 pb-32 px-8">
   <div class="max-w-7xl mx-auto flex flex-col items-center text-center">
@@ -27,10 +29,10 @@
     </div>
     <div class="w-full max-w-4xl relative">
       <div class="absolute inset-0 bg-primary/20 blur-[120px] rounded-full -z-10 animate-pulse"></div>
-      <img
-        alt="Uallet Logo"
-        class="w-48 h-48 mx-auto object-contain drop-shadow-[0_0_40px_rgba(216,185,255,0.4)]"
-        src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5Bd7ouJa26iY9JXhT0roJIyEVb90Hjw2rctsmYBLcSG_2G97Wc9m59Shaxy6PL3ZkXdkWGi9KWVJvO-Wz_CAoXMsOubQsGgMCYPbwPOpx_ajJ-M2O_Ynxol6jbRkCJ1HQHyKqAcGM22GZkXIpg70NgVMHKYG7J9gxnAzEqsCPnlqWbm5U9JmERi2yOLNnX9WDb-Ye-Qkj2WpKXJg-xAjc5ywxjb1lGKooyLMlKyQQJ1MAYlgj2O2rtujzEeGfyFB57w0LsPqrPdeA"
+      <Image
+        src={logoBlanco}
+        alt="Uallet Logo Blanco"
+        class="w-80 h-auto mx-auto object-contain drop-shadow-[0_0_40px_rgba(216,185,255,0.4)]"
       />
     </div>
   </div>
