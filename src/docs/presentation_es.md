@@ -67,6 +67,65 @@ Este es el proceso paso a paso:
    continuidad de la cadena. Una vez añadido, los datos del bloque no pueden ser modificados.
 
 6. Confirmación del bloque
-   Tras la incorporación, la nueva versión de la blockchain se distribuye a todos los nodos de la red, asegurando
-   que todos posean la misma copia del libro mayor. Una vez que el bloque con su transacción ha sido confirmado,
-   la transacción se considera definitiva.
+   Tras la incorporación, la nueva versión de la blockchain se distribuye a todos los nodos de la red asegurando
+   que todos posean la misma copia del libro mayor. Una vez que el bloque con su transacción ha sido confirmado, la transacción se considera definitiva.
+
+# Proof of Stake
+
+Proof of Stake funciona mediante nodos y validadores. Un validador
+es un nodo que participa activamente en la validación de transacciones
+y la propuesta de nuevos bloques. Los validadores se seleccionan de forma
+aleatorio en funcion de la cantidad de tokens que tienen en staking:
+cuantós más tokens aportas, mayor probabilidad tienes a ser seleccionado
+porque eres el que esta jugandosela más, por tanto eres más confiable.
+En principio, para participar en el staking algunas blockchains exigen
+mínimo y otras no.
+
+El proceso es el siguiente: un validador es elegido de forma aleatoria
+para añadir un bloque. Antes de hacerlo debe validar y procesar todas
+las transacciones. Después de ello, tiene que llegar al conseso
+validando con otros nodos, donde ellos revisan de forma independiente
+el bloque y repiten la prueba criptográfica. Si todo es válido,
+emiten una atestación y cuando llego al 51% se añade a la cadena.
+
+| Ventajas              | Desventajas                                   |
+| --------------------- | --------------------------------------------- |
+| Eficiencia energética | Centralización                                |
+| Escalabilidad         | Periodos de bloqueo de las monendas stakeadas |
+| Accesibilidad         |                                               |
+
+# Proof of History
+
+Proof of History es una tecnología desarrollada para resolver uno
+de los problemas más difíciles de las blockchains: establecer un
+orden temporal fiable y descentralizado de los eventos. PoH es una
+adicción al PoS ya existente. Fue desarrollado por Solana para
+abordar el problema que requieren mucha comunicación para determinar
+que transacción ocurrión primero. PoH registra el orden cronológico
+antes de que se alcance el consenso, abordando así este problema.
+
+El proceso es el siguiente:
+
+1. Generar la cadena de hashes
+   - Se aplica repetidamente una función de hash criptográfico (SHA-256)
+     donde la salida del paso anterior se convierte en la entrada del siguiente.
+   - Cada hash es único y solo puede calcularse recorriendo todos los hashes
+     anteriores, lo que crea una secuencia verificable.
+   - Esto genera un reloj criptográfico: una serie de sellos de tiempo que
+     cualquiera pueda verificar.
+
+2. Insertar eventos y transacciones
+   - Las nuevas transacciones se insertan en la cadena de hashes.
+   - Esto permite determinar el orden cronológico de cuando ocurrió
+     cada evento.
+
+3. Contruir bloques
+   - El validador al que le toca utiliza la secuencia de PoH para
+     ordenar las transacciones.
+   - Como el orden ya viene fijado, los validadores ya no necesitan
+     ponerse de acuerdo sobre el orden, lo que ahorra tiempo.
+
+4. Procesar el consenso
+   - Otros validadores revisan la secuencia de PoH y las transacciones.
+   - Solana utiliza Tower BFT
+   - Tras obtener suficientes votos, el bloque se vuelve definitivo
