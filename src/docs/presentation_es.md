@@ -67,10 +67,42 @@ Este es el proceso paso a paso:
    continuidad de la cadena. Una vez añadido, los datos del bloque no pueden ser modificados.
 
 6. Confirmación del bloque
-   Tras la incorporación, la nueva versión de la blockchain se distribuye a todos los nodos de la red asegurando
-   que todos posean la misma copia del libro mayor. Una vez que el bloque con su transacción ha sido confirmado, la transacción se considera definitiva.
+   Tras la incorporación, la nueva versión de la blockchain se distribuye a todos los nodos de la red, asegurando que todos posean la misma copia del libro mayor. Una vez que el bloque con su transacción ha sido confirmado, la transacción se considera definitiva.
 
-# Proof of Stake
+## 4. Escabilidad y costos
+
+La escabilidad se refiere a la velocidad con la que las blockchains pueden procesar
+un gran número de transacciones. Cuanto más ocupado está el sistema, mayor es la
+presión. Esto ha llevado a blockchains como Bitcoint y Ethereum a recibir muchas
+críticas. Ambas blockchains funcionan haciendo que cada transacción sea validada
+por toda la red. Esto limita el número de transacciones que pueden procesarse
+por segundo.
+
+[Escalabilidad de Bitcoin](https://chainspect.app/chain/bitcoin)
+[Escalabidad de Ethereum](https://chainspect.app/chain/ethereum)
+
+¿Comó Bitcoin fue desarrollado para ser un sustituto del sistema monetario cuando solo puede procesar aproximadamente 7
+transacciones por segundo, minetras que sistemas como Visa pueden manejar miles por segundo?
+
+Para abordar estos problemas se han desarrollado diferentes soluciones, tales como aplicar submejoras a Bitcoin y Ethereum
+más escalables, así como nuevas blockchains que son escalables por naturaleza:
+
+- Soluciones de capa 2: Las soluciones de capa 2 permiten ejecutar transacciones
+  fuera de la cadena princpipal y validarlas en bloque.
+- Nuevos mecanismos de consenso: Como Proof of History de Solana y algoritmos innovadores
+  de Proof-of-Stake.
+
+## 5. Tipos de mecanismos de consenso
+
+Para saber los diferentes tipos de mecanismos de consenso, es importante conocer
+el funcionamiento de cada uno, para saber la ventajas y desventajas de cada uno,
+y así poder elegir el más adecuado para cada caso de uso.
+
+### 5.1. Poof of Work (PoW)
+
+...
+
+### 5.2. Proof of Stake
 
 Proof of Stake funciona mediante nodos y validadores. Un validador
 es un nodo que participa activamente en la validación de transacciones
@@ -94,7 +126,7 @@ emiten una atestación y cuando llego al 51% se añade a la cadena.
 | Escalabilidad         | Periodos de bloqueo de las monendas stakeadas |
 | Accesibilidad         |                                               |
 
-# Proof of History
+### 5.3. Proof of History
 
 Proof of History es una tecnología desarrollada para resolver uno
 de los problemas más difíciles de las blockchains: establecer un
@@ -129,3 +161,10 @@ El proceso es el siguiente:
    - Otros validadores revisan la secuencia de PoH y las transacciones.
    - Solana utiliza Tower BFT
    - Tras obtener suficientes votos, el bloque se vuelve definitivo
+
+## Fuentes
+
+- [¿Qué es una blockchain?](https://finst.com/es/learn/articles/what-is-blockchain)
+- [Proof of Work](https://finst.com/es/learn/articles/what-is-proof-of-work)
+- [Proof of Stake](https://finst.com/es/learn/articles/what-is-proof-of-stake)
+- [Proof of History](https://finst.com/es/learn/articles/what-is-proof-of-history)
