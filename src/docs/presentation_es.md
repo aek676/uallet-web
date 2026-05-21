@@ -351,3 +351,4 @@ un sistema de pagos basado en blockchain.
 - [Proof of Work](https://finst.com/es/learn/articles/what-is-proof-of-work)
 - [Proof of Stake](https://finst.com/es/learn/articles/what-is-proof-of-stake)
 - [Proof of History](https://finst.com/es/learn/articles/what-is-proof-of-history)
+- [SpherePay](https://spherepay.co/)
