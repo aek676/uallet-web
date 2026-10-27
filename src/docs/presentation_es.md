@@ -345,6 +345,66 @@ Además, se podrían implementar otras funcionalidades, como por ejemplo:
 Y la más importante, ser la primera universidad de España en implementar
 un sistema de pagos basado en blockchain.
 
+## 10. Recarga mediante IBAN virtual por alumno
+
+Propuesta de recarga pendiente de probar: cada alumno tiene su propio IBAN
+virtual y al hacer una transferencia se le acuñan los tokens automáticamente.
+
+### 10.1. Cómo lo vive el alumno
+
+1. Se registra en la app con el correo de la universidad y la app le crea su wallet automáticamente.
+2. En la pantalla "Recargar" ve **su IBAN personal** (por ejemplo `ES12 6724 8990 …`), el titular (la universidad) y un botón para copiarlo.
+3. Desde la app de su banco hace una transferencia instantánea de, por ejemplo, 20 €. La primera vez guarda el IBAN como beneficiario y las siguientes son dos toques.
+4. En segundos recibe una notificación: "+20 tokens UNI". Ya puede pagar en la cafetería.
+
+No hace falta concepto ni referencia. El IBAN ya identifica quién paga, que es la gran ventaja frente a un IBAN único con conceptos que la gente escribe mal.
+
+### 10.2. Qué pasa por detrás
+
+- **Cuenta de pago de la universidad** en un proveedor de banca embebida ([Swan](https://www.swan.io/) es un ejemplo). Ahí se guardan los euros que respaldan los tokens.
+- **IBANs virtuales:** el backend crea uno por alumno mediante la API y guarda la relación `IBAN → usuario → wallet`. Todos ingresan en la misma cuenta principal.
+- **Webhook:** cuando entra una transferencia, el proveedor avisa al servidor.
+- **El servidor:**
+  1. Consulta la transacción en la API del proveedor. No basta con fiarse del webhook.
+  2. Comprueba que está *Booked* (abonada) y que no la ha procesado antes (idempotencia).
+  3. Identifica al alumno por el IBAN virtual de destino.
+  4. Acuña la misma cantidad de tokens en su wallet, pagando la universidad la comisión de red.
+  5. Guarda el registro: id de la transacción bancaria ↔ firma de la transacción en Solana.
+
+Ese último registro es oro para la auditoría. En cualquier momento se puede demostrar que tokens en circulación = euros en la cuenta.
+
+En pseudocódigo, el corazón del sistema son unas pocas líneas:
+
+```
+onWebhook(event):
+  tx = proveedor.getTransaction(event.id)        # verificar en origen
+  if tx.status != "Booked" or ya_procesada(tx.id): return
+  alumno = buscarPorIbanVirtual(tx.ibanDestino)
+  firma = solana.mint(token, alumno.wallet, tx.importe, feePayer=universidad)
+  guardar(tx.id, alumno.id, tx.importe, firma)
+```
+
+### 10.3. Casos que hay que prever
+
+- **Transferencia no instantánea:** si el banco del alumno manda una SEPA normal, tarda hasta un día hábil. Basta con avisarlo en la pantalla.
+- **IBAN virtual de un alumno dado de baja:** se puede cancelar, y las transferencias que lleguen después se devuelven.
+- **Importes mínimos o máximos:** si alguien envía 0,50 € o 5.000 €, hay que decidir si se acuña, se devuelve o se revisa a mano. Un límite máximo también ayuda con la prevención de blanqueo.
+- **Devoluciones:** el alumno pide recuperar su saldo, se queman sus tokens y se le envía una SEPA a su cuenta. Si el token es canjeable 1:1, esto es obligatorio por ley.
+- **Sin contracargos:** a diferencia de la tarjeta, una transferencia SEPA no se puede revertir unilateralmente. Para la universidad es más seguro.
+
+### 10.4. Requisitos y costes
+
+- **Alta de la universidad como cliente empresa (KYB)** en el proveedor. En Swan, para crear IBANs virtuales la cuenta debe ser de tipo *PaymentService* y con nivel de pago *Unlimited*, así que hay que completar la verificación entera.
+- **Coste por recarga:** prácticamente cero. Se pagaría la cuota o el contrato con el proveedor, cuya tarifa no es pública y hay que negociarla. Swan no es la única opción: conviene preguntar también al banco actual de la universidad si ofrece IBANs virtuales por API, porque algunos lo hacen.
+- **La parte legal sigue aplicando** (ver [7.4](#74-regulación-ley-mica)): red limitada y libro blanco.
+
+### 10.5. Para empezar
+
+1. Abrir una cuenta *sandbox* en el proveedor (Swan tiene entorno de pruebas) y crear un par de IBANs virtuales.
+2. Montar el webhook y la acuñación contra Solana devnet.
+3. Simular transferencias en el sandbox y comprobar que los tokens llegan.
+4. Hablar con la asesoría jurídica y el banco o proveedor antes de pasar a producción.
+
 ## Fuentes
 
 - [¿Qué es una blockchain?](https://finst.com/es/learn/articles/what-is-blockchain)
@@ -353,3 +413,4 @@ un sistema de pagos basado en blockchain.
 - [Proof of History](https://finst.com/es/learn/articles/what-is-proof-of-history)
 - [SpherePay](https://spherepay.co/)
 - [Transak](https://transak.com/#onramp)
+- [Swan](https://docs.swan.io/)
